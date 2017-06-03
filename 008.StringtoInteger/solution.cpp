@@ -29,6 +29,7 @@ int main()
 {
   Solution s;
   cout<<s.myAtoi("1")<<endl;
+  cout<<s.myAtoi("123ab123")<<endl;
   cout<<s.myAtoi("-2147483648")<<endl;
   cout<<s.myAtoi("2147483648")<<endl;
   return 0;

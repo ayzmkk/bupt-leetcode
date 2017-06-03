@@ -9,48 +9,45 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-      /*
-      尾插法
-      头节点head，新增节点pnode，移动节点p
-      如果和大于10，进1.  进位标志是flag。
-      */
-      ListNode *head = NULL;
-      ListNode *p = NULL;
-      ListNode *pnode = NULL;
-      int flag = 0,add;
-      while(l1!=NULL || l2!=NULL || flag==1)
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+      ListNode* head = NULL;
+      ListNode* p = NULL;
+      ListNode* tmp = NULL;
+      while(l1!=NULL && l2!=NULL)
       {
-        add = flag;
-        if(l1!=NULL)
+        int flag = 0;
+        if(l1->val < l2->val)
         {
-          add += l1->val;
-          l1 = l1->next;
-        }
-        if(l2!=NULL)
-        {
-          add += l2->val;
-          l2 = l2->next;
-        }
-        if(add>=10)
-        {
-          add-=10;
           flag=1;
+          tmp =l1;
         }
-        else
-          flag=0;
+        else tmp = l2;
 
-        pnode = new ListNode(add);
         if(head==NULL)
         {
-          head = pnode;
-          p = pnode;
+          p = head = tmp;
+          tmp = tmp->next;
+          head->next = NULL;
         }
         else
         {
-          p->next = pnode;
+          p->next = tmp;
           p = p->next;
+          tmp = tmp->next;
+          p->next = NULL;
         }
+        if(flag) l1=tmp;
+        else l2=tmp;
+      }
+      if(head==NULL)
+      {
+        if(l1) head = l1;
+        if(l2) head = l2;
+      }
+      else
+      {
+        if(l1) p->next =l1;
+        if(l2) p->next = l2;
       }
       return head;
     }
@@ -101,8 +98,7 @@ int main()
     }
 
     Solution s;
-    l = s.addTwoNumbers(l1,l2);
-    cout<<"get the sum: "<<endl;
+    l = s.mergeTwoLists(l1,l2);
     while(l!=NULL)
     {
       cout<<l->val<<" ";
@@ -114,6 +110,8 @@ int main()
 
 /*
 3 3
-2 4 3
-5 6 4
+2 3 4
+4 5 6
+0 1
+0
 */
